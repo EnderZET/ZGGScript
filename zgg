@@ -1,0 +1,66 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+helps(){
+
+echo "ZairoZG Help Commands!"
+echo "Usage: zgg [commands]"
+echo
+echo "clean-all : Clean All Packages"
+echo "arch : Show Architecture"
+echo "mcsc-i : Install MCSC To Termux System"
+echo "list-pkg : Show All Packages Installed"
+
+exit 1
+}
+
+upds(){
+
+cd /$HOME/.zgg/
+if [ -d "update" ] && [ -e "update" ] && [ -d "backup" ] && [ -e "backup"]; then
+
+
+echo -e "Update performed on:" > /$HOME/.zgg/.update.log
+date >> /$HOME/.zgg/.update.log
+echo -e "Updating ZGG Script"
+cd /$HOME/.zgg/update/ && git clone https://github.com/EnderZET/ZGGScript/zgg >> /home/user/.update.log >> /home/user/.update.log
+echo -e "Installing Update..."
+cd /$HOME/.zgg/update/ && cp -rf zgg /data/data/com.termux/files/usr/bin/ >> /home/user/.update.log >> /home/user/.update.log
+echo -e "Backuping Current Version..."
+cd /data/data/com.termux/files/usr/bin/ && cp -rf zgg /$HOME/.zgg/backup/
+echo -e "Reticulating splines..."
+echo -e "Removing Orphaned Packages..."
+apt-get autoremove -yy >> /$HOME/.zgg/.update.log >> /$HOME/.zgg/.update.log
+echo -e "Clearing cache..."
+apt-get autoclean && apt-get clean >> /$HOME/.zgg/.update.log >> /$HOME/.zgg/.update.log
+echo -e "Update Complete" | tee -a /home/user/.update.log
+echo -e "This Script Will Be Killed In 5 Seconds..."
+sleep 10
+exit
+
+else
+
+cd /$HOME/.zgg/
+mkdir update
+mkdir backup
+
+fi
+
+}
+
+if [ $# = 0 ]; then
+
+helps
+
+fi
+
+cmd="$1"
+
+shift 1
+
+case $cmd in
+       help*) helps;;
+       arc*) arch;;
+       update-s*) upds;;
+       mcsc*) ms;;
+       *) echo "Unknown Commands: '$cmd' (Run 'zgg help' For Usage Information)"; exit 1;;
+esac
